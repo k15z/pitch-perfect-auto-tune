@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Perfect Pitch Auto Tune</title>
-    <script type="text/javascript" src="ppat.js"></script>
-    <script type="text/javascript">
-      /**
-       * This code demonstrates how to use the `createPitchPerfectAutoTune`
-       * function by grabbing microphone input, connecting it to a new tuner
-       * node, and connecting the output from the tuner node to the speakers.
-       */
-      (function() {
+<head>
+<title>Perfect Pitch Auto Tune</title>
+<script type="text/javascript" src="ppat.js"></script>
+<script type="text/javascript">
+    /**
+     * This code demonstrates how to use the `createPitchPerfectAutoTune`
+     * function by grabbing microphone input, connecting it to a new tuner
+     * node, and connecting the output from the tuner node to the speakers.
+     */
+    (function () {
         window.AudioContext = window.AudioContext || window.webkitAudioContext;
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 
@@ -25,15 +25,15 @@
         };
 
         function onError() {
-          alert("Unable to access microphone!");
+            alert("Unable to access microphone!");
         };
 
-        navigator.getUserMedia({audio:true}, onStream, onError);
-      })();
-    </script>
-  </head>
-  <body>
-    <!-- TODO: BUILD AN USER INTERFACE -->
+        navigator.getUserMedia({ audio: true }, onStream, onError);
+    })();
+</script>
+</head>
+<body>
+<!-- TODO: BUILD AN USER INTERFACE -->
     This is a blank page. Pop open the javascript console for more info.
-  </body>
+</body>
 </html>
