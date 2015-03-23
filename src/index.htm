@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Perfect Pitch Auto Tune</title>
+    <script type="text/javascript" src="ppat.js"></script>
+    <script type="text/javascript">
+      /**
+       * This code demonstrates how to use the `createPitchPerfectAutoTune`
+       * function by grabbing microphone input, connecting it to a new tuner
+       * node, and connecting the output from the tuner node to the speakers.
+       */
+      (function() {
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+
+        function onStream(stream) {
+            var audioCtx = new AudioContext();
+
+            var inputNode = audioCtx.createMediaStreamSource(stream);
+            var tunerNode = audioCtx.createPitchPerfectAutoTune();
+            var outputNode = audioCtx.destination;
+
+            inputNode.connect(tunerNode);
+            tunerNode.connect(outputNode);
+        };
+
+        function onError() {
+          alert("Unable to access microphone!");
+        };
+
+        navigator.getUserMedia({audio:true}, onStream, onError);
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- TODO: BUILD AN USER INTERFACE -->
+    This is a blank page. Pop open the javascript console for more info.
+  </body>
+</html>
