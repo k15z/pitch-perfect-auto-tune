@@ -50,14 +50,20 @@ AudioContext.prototype.createPitchPerfectAutoTune = function() {
     var desiredOffset = sampleRate/desiredFrequency;
 
     // strech the input to emphasize the desired frequency
-    /* Pitch Shifting
-     * ----------------------------------------------------
-     * My plan is to adjust the pitch by compressing or stretching the signal
-     * over the time domain, faking  a continuous signal by using linear
-     * approximations between each pair of points. I have no idea whether this
-     * is going to work - I just thought of it on my own - but I'll be back
-     * to implement it after I go do some back of envelope calculations.
-     */
+    var temp = new Array(parseInt(input.length*desiredOffset/bestOffset));
+    for (var i = 0; i < temp.length; i++) {
+      var iFloat = i*bestOffset/desiredOffset;       // ex: 12.33
+      var x1 = input[parseInt(Math.floor(iFloat))];  // ex: 12
+      var x2 = input[parseInt(Math.ceil(iFloat))];   // ex: 13
+      var c1 = iFloat - Math.floor(iFloat);          // ex: 0.33
+      var c2 = Math.ceil(iFloat) - iFloat;           // ex: 0.66
+      temp[i] = x1 * c1 + x2 * c2;
+    }
+
+    // do some magic here to fill in gaps / smooth discontinuities
+    for (var i = 0; i < Math.min(temp.length, output.length); i++) {
+      output[i] = temp[i];
+    }
 
     return output;
   };
