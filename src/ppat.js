@@ -73,9 +73,10 @@ AudioContext.prototype.createPitchPerfectAutoTune = function () {
             output[i] = temp[i];
         }
         // do some magic here to fill in gaps
+        // todo: improve this to intelligently fill gaps
         if (temp.length < output.length) {
           for (var i = 0; i < output.length - temp.length; i++)
-            output[temp.length + i] = temp[i];
+            output[temp.length + i] = temp[temp.length - i];
         }
 
         return output;
