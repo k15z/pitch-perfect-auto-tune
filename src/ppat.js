@@ -31,7 +31,7 @@ AudioContext.prototype.createPitchPerfectAutoTune = function() {
    * the pitch. It is currently incomplete.
    */
   function fixPitch(input, output) {
-    // find the primary frequency
+    // find the primary frequency (actual pitch)
     var bestError = 999;
     var bestOffset = -1;
     for (var offset = 48; offset < 480; offset++) {
@@ -45,19 +45,19 @@ AudioContext.prototype.createPitchPerfectAutoTune = function() {
     }
     var bestFrequency = sampleRate/bestOffset;
 
-    // find the desired frequency
+    // find the desired frequency (nearest note)
     var desiredFrequency = getNearestNoteFrequency(bestFrequency);
     var desiredOffset = sampleRate/desiredFrequency;
 
-    // strech the input to emphasize the desired frequency
+    // stretch the input to bring out the desired frequency
     var temp = new Array(parseInt(input.length*desiredOffset/bestOffset));
     for (var i = 0; i < temp.length; i++) {
       var iFloat = i*bestOffset/desiredOffset;       // ex: 12.33
-      var x1 = input[parseInt(Math.floor(iFloat))];  // ex: 12
-      var x2 = input[parseInt(Math.ceil(iFloat))];   // ex: 13
+      var x1 = input[parseInt(Math.floor(iFloat))];  // ex: input[12]
+      var x2 = input[parseInt(Math.ceil(iFloat))];   // ex: input[13]
       var c1 = iFloat - Math.floor(iFloat);          // ex: 0.33
       var c2 = Math.ceil(iFloat) - iFloat;           // ex: 0.66
-      temp[i] = x1 * c1 + x2 * c2;
+      temp[i] = x1 * c1 + x2 * c2;                   // ex: input[12.33]
     }
 
     // do some magic here to fill in gaps / smooth discontinuities
